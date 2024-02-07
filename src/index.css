@@ -1,0 +1,45 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.input-task{
+  height: 1.5rem;
+  width: 20rem;
+  margin-right: 2rem;
+}
+
+.add-task-btn{
+  height: 1.8rem;
+}
+
+.visual{
+  overflow: hidden;
+  border: 4px solid black;
+  border-radius: 2rem;
+  height: 4rem;
+  width: 50%;
+}
+
+.inner-visual{
+  
+  margin-left: 2rem;
+  margin-top: 1rem;
+}
+
+/* .remove-edit-btn{
+  border: 2px solid black;
+  width: 15rem;
+  margin: 0 0 65rem 50rem;
+} */
+
+
