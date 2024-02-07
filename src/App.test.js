@@ -10,7 +10,7 @@ import { BrowserRouter } from 'react-router-dom';
 import globalReducer, { initial_state } from './Reducers/globalReducer';
 import { CREATE_TASK, REMOVE_TASK } from './Actions/constant';
 import About from './About';
-
+import Contact from './Contact';
 function initialProps(){
   render(<Provider store={store}><Todos/></Provider>);
 }
@@ -61,22 +61,7 @@ describe("All about home page", ()=>{
     const removeBtn = screen.getByTestId("remove-btn");
     fireEvent.click(removeBtn);
     expect(text).not.toBeInTheDocument()
-  })
-
-
-  test("testing editing  of a task", ()=>{
-    initialProps();
-    const inputBar = screen.getByTestId("input-bar");
-    const addingBtn = screen.getByTestId("add-btn");
-    fireEvent.change(inputBar, {target:{
-      value:"Go to Park"
-    }})
-    fireEvent.click(addingBtn);
-    const text = screen.queryByText("Go to Park");
-    const removeBtn = screen.getByTestId("remove-btn");
-    fireEvent.click(removeBtn);
-    expect(text).not.toBeInTheDocument()
-  })
+  })  
 
 })
 
@@ -138,7 +123,8 @@ describe("Testing navbar", ()=>{
 
 describe("Looking for the edit button", ()=>{
   
-  test("checking for the edit button", ()=>{
+
+  test("updation of task", ()=>{
     initialProps()
     const inputBar = screen.getByTestId("input-bar");
     const addingBtn = screen.getByTestId("add-btn");
@@ -146,9 +132,68 @@ describe("Looking for the edit button", ()=>{
       value:"Go to Park"
     }})
     fireEvent.click(addingBtn);
-    const editBtn = screen.getByTestId("edit-btn")
-    expect(editBtn).toBeInTheDocument()
+    const editButton = screen.getByRole("button", { name: "Edit Task" });
+    fireEvent.click(editButton)
+    const editInputBar = screen.getByPlaceholderText("Enter updated task");
+    fireEvent.change(editInputBar, {
+      target:{
+        value:"Go to the mall"
+      }      
+    })
+
+    const updatedTaskSubmitBtn = screen.getByRole("button", { name: "Submit" });
+    fireEvent.click(updatedTaskSubmitBtn)
+    expect(screen.queryByText("Go to Park")).toBeNull();
+    expect(screen.getByText("Go to the mall")).toBeInTheDocument();
+    
+    
   })
+
+  test("testing the about page", ()=>{
+    render(
+      <BrowserRouter>
+      <About/>
+      </BrowserRouter>
+    )
+    const statement = screen.getByText("This is About Page, Mate!")
+    expect(statement).toBeInTheDocument();
+
+  })
+
+
+  test("Testing the home page", ()=>{
+    render(
+      <Provider store={store}>
+      <BrowserRouter>
+      <Home/>
+      </BrowserRouter>
+      </Provider>
+    )
+    
+    const homeBtn = screen.getByTestId("home-btn")
+    const aboutBtn = screen.getByTestId("about-btn")
+    const contactBtn = screen.getByTestId("contact-btn")
+    expect(homeBtn).toBeInTheDocument();
+  })
+
+
+  test("MSW Testing", async()=>{
+    render(
+      <Provider store={store}>
+      <BrowserRouter>
+       <Contact/>
+      </BrowserRouter>
+      </Provider>
+    )
+      const users = await screen.findAllByRole('listitem')
+      expect(users).toHaveLength(3)
+    
+  })
+
+  
+
 })
+
+
 
 
